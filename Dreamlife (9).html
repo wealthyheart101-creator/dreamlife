@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fde6e4">
+<title>Dreamlife</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fde6e4;--bg2:#fff3e2;--card:#fffaf3;--ink:#4a2c3a;--mute:#8a6675;--rose:#e58aa0;--g1:#f6dcbc;--g2:#c9997d;--g3:#fbeed9;--line:#e9c9b4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2d1b28;--bg2:#3a2330;--card:#43293a;--ink:#fbe9e2;--mute:#d2aebb;--line:#7a5566}}
+:root[data-theme="dark"]{--bg:#2d1b28;--bg2:#3a2330;--card:#43293a;--ink:#fbe9e2;--mute:#d2aebb;--line:#7a5566}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(170deg,var(--bg),var(--bg2));color:var(--ink);font:400 16px/1.5 Nunito,system-ui,sans-serif;padding-bottom:90px}
+main{max-width:520px;margin:0 auto;padding:18px 16px}
+h1{font:700 32px/1.1 Fraunces,Georgia,serif;margin:6px 0 2px;background:linear-gradient(100deg,#b9826a,#f4d3a8 40%,#c9997d 70%,#e9bfa0);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font:500 21px Fraunces,Georgia,serif;margin:0 0 8px}.sub{color:var(--mute);margin:0 0 16px}
+.card{background:var(--card);border:1.5px solid transparent;border-radius:22px;padding:16px;margin-bottom:14px;background-image:linear-gradient(var(--card),var(--card)),linear-gradient(120deg,var(--g1),var(--g2),var(--g3),var(--g2));background-origin:border-box;background-clip:padding-box,border-box}
+label{display:block;font-weight:700;margin:12px 0 5px}
+input[type=text],textarea{width:100%;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:14px;padding:11px 13px;font:inherit}
+textarea{min-height:150px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:8px 14px;font:inherit;cursor:pointer}
+.chip[aria-pressed=true]{background:linear-gradient(120deg,var(--g1),var(--g2));border-color:var(--g2);color:#3b2230;font-weight:700}
+.btn{width:100%;border:0;border-radius:16px;padding:14px;font:700 16px Nunito,sans-serif;color:#3b2230;background:linear-gradient(120deg,#f7ddc0,#d9a98d 55%,#f3cfae);box-shadow:0 2px 0 #b98568;cursor:pointer;margin-top:12px}
+.btn.alt{background:transparent;color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+.recbtn{display:block;margin:10px auto;width:120px;height:120px;border-radius:50%;border:0;font:700 15px Nunito,sans-serif;color:#fff;background:radial-gradient(circle at 35% 30%,#f6a3b3,#e5707f 60%,#c9546a);box-shadow:0 0 0 6px #fbeed9,0 0 0 8px var(--g2);cursor:pointer}
+.recbtn.on{background:radial-gradient(circle at 35% 30%,#ff8a8a,#d63a4f);animation:p 1.6s ease-in-out infinite}
+@keyframes p{50%{transform:scale(1.07)}}@media (prefers-reduced-motion:reduce){.recbtn.on{animation:none}}
+input[type=range]{width:100%;accent-color:var(--rose)}.note{font-size:14px;color:var(--mute)}
+.stat{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.stat button{border:1.5px solid var(--line);background:transparent;border-radius:12px;padding:6px 10px;cursor:pointer;color:var(--ink)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:4px;padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1.5px solid var(--g1)}
+nav button{flex:1;max-width:120px;border:0;background:transparent;color:var(--mute);font:600 12px Nunito,sans-serif;padding:6px 2px;border-radius:14px;cursor:pointer}
+nav button span{display:block;font-size:21px}nav button[aria-selected=true]{background:var(--g3);color:#7a4a3a}
+.view{display:none}.view.on{display:block}:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+.tm{text-align:center;font:500 26px Fraunces,Georgia,serif}
+audio{width:100%;margin-top:8px}
+#modal{position:fixed;inset:0;background:rgba(74,44,58,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9}
+#modal[hidden]{display:none}#modal .card{max-width:420px;width:100%;margin:0}#modal ol{padding-left:20px;margin:8px 0}
+#reader{position:fixed;inset:0;z-index:8;background:linear-gradient(170deg,var(--bg),var(--bg2));display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) 14px calc(10px + env(safe-area-inset-bottom,0px))}
+#reader[hidden]{display:none}
+#rt{flex:1;overflow:auto;font:500 26px/1.65 Fraunces,Georgia,serif;padding:12px 4px;white-space:pre-wrap}
+.rbar{display:flex;gap:10px;align-items:center;padding:8px 0}.rbar .btn{margin:0}.rbar label{margin:0;flex:1;font-size:14px}
+#reader details{font-size:14px;color:var(--mute);padding:4px 0}
+</style></head>
+<body><main>
+<h1>✨ Dreamlife</h1>
+<p class="sub">Turn worries into the life you're already becoming. 🌸</p>
+
+<section id="v-dream" class="view on">
+<div class="card"><h2>💭 Your dream</h2>
+<label for="dream">What does your dream life look like?</label>
+<input type="text" id="dream" placeholder="A sunny studio, savings that grow, calm evenings">
+<label>What is weighing on you?</label>
+<div class="chips" id="cats">
+<button class="chip" data-c="money" aria-pressed="true">💰 Money worry</button>
+<button class="chip" data-c="bugs" aria-pressed="false">🐞 Insect fear</button>
+<button class="chip" data-c="love" aria-pressed="false">💌 Conflict</button></div>
+<label for="fear">In your own words</label>
+<input type="text" id="fear" placeholder="Bills piling up / spiders in my room / argument with…">
+<button class="btn" id="gen">Write my manifest script ✨</button></div>
+<p class="note">This is a self-care tool, not therapy. If fear or anxiety feels overwhelming, please talk to a professional.</p>
+</section>
+
+<section id="v-listen" class="view">
+<div class="card"><h2>🎧 Record your narration</h2>
+<label for="script">Your script (read it aloud)</label>
+<textarea id="script" placeholder="Create a script in the Dream tab, or write your own."></textarea>
+<label>Narrator</label><div class="chips" id="nar"><button class="chip" data-c="f" aria-pressed="true">👩 Female voice</button><button class="chip" data-c="m" aria-pressed="false">🎙 My voice</button></div>
+<label for="before">Calm right now: <b id="bv">5</b>/10</label>
+<input type="range" id="before" min="1" max="10" value="5">
+<button class="recbtn" id="rec">🎙<br>Tap to record</button>
+<div class="tm" id="tm">0:00</div>
+<button class="btn alt" id="rd">📖 Show script to read</button>
+<button class="btn" id="perm">🔓 Allow microphone</button>
+<button class="btn alt" id="phone">📱 Record with my phone's recorder</button><input type="file" id="cap" accept="audio/*" capture hidden>
+<button class="btn alt" id="imb">📂 Add a recording from my phone</button><input type="file" id="imp" accept="audio/*" hidden>
+<p class="note" style="text-align:center" id="vstat">Soothing music starts with the narration. If you record your own voice, headphones keep the music out of it.</p>
+</div>
+<div class="card" id="after" style="display:none"><h2>🌷 Save this session</h2>
+<audio id="prev" controls></audio>
+<label for="sname">Name</label><input type="text" id="sname" placeholder="Morning calm">
+<label for="aft">Calm now: <b id="av">7</b>/10</label><input type="range" id="aft" min="1" max="10" value="7">
+<button class="btn" id="save">Save session</button><button class="btn alt" id="disc">Discard</button></div>
+</section>
+
+<section id="v-sess" class="view">
+<div class="card"><h2>📼 Saved sessions</h2><div id="sl" class="note">Nothing saved yet. Record your first narration.</div>
+<p class="note">Your voice is saved on this phone. The music plays live each time.</p></div>
+</section>
+
+<section id="v-grow" class="view">
+<div class="card"><h2>🌤 Daily check-in</h2>
+<label>Which worry is loudest today?</label>
+<div class="chips" id="cw"><button class="chip" data-c="money" aria-pressed="false">💰 Money</button><button class="chip" data-c="bugs" aria-pressed="false">🐞 Insects</button><button class="chip" data-c="love" aria-pressed="false">💌 Conflict</button><button class="chip" data-c="none" aria-pressed="false">🌈 None</button></div>
+<label for="anx">Anxiety today: <b id="xv">4</b>/10</label><input type="range" id="anx" min="1" max="10" value="4">
+<label>Did you take one small step toward your dream?</label>
+<div class="chips" id="cs"><button class="chip" data-c="1" aria-pressed="false">Yes 💪</button><button class="chip" data-c="0" aria-pressed="false">Not yet</button></div>
+<button class="btn" id="chk">Save check-in</button></div>
+<div class="card"><h2>🌱 What helps you most</h2><div id="ins" class="note">Check in daily and finish sessions to start learning what calms you.</div></div>
+<button class="btn alt" id="reset">Clear check-ins and ratings</button>
+</section>
+</main>
+
+<div id="reader" hidden role="dialog" aria-label="Script reader">
+<div class="rbar"><button class="btn alt" id="rx" style="width:auto;padding:10px 16px">✕ Close</button><label>Scroll speed<input type="range" id="rs" min="0" max="10" value="3"></label></div>
+<div id="rt" tabindex="0"></div>
+<details><summary>Using your phone's Voice Recorder app?</summary>Its screen covers Dreamlife, so use split-screen: open Recent apps, tap the Chrome icon, choose <b>Split screen</b>, then open Voice Recorder in the other half. Record while the script scrolls here. Afterwards close this reader and tap <b>📂 Add a recording from my phone</b>.</details>
+<div class="rbar"><button class="btn" id="rrec">🎙 Record</button></div></div>
+<div id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mt"><div class="card"><h2 id="mt"></h2><div id="mb"></div>
+<button class="btn" id="m1"></button><button class="btn alt" id="m3" hidden></button><button class="btn alt" id="m2">Not now</button></div></div>
+
+<nav role="tablist">
+<button role="tab" data-v="dream" aria-selected="true"><span>💭</span>Dream</button>
+<button role="tab" data-v="listen" aria-selected="false"><span>🎙</span>Record</button>
+<button role="tab" data-v="sess" aria-selected="false"><span>📼</span>Sessions</button>
+<button role="tab" data-v="grow" aria-selected="false"><span>🌱</span>Growth</button>
+</nav>
+
+<script>
+const $=id=>document.getElementById(id);
+let S={nar:'f',cat:'money',log:[],checks:[]},mr=null,ch=[],cur=null,blob=null,tI=null,t0=0,pl=null;
+try{S=Object.assign(S,JSON.parse(localStorage.getItem('dl2')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('dl2',JSON.stringify(S))}catch(e){}};
+const NAMES={money:'💰 Money',bugs:'🐞 Insects',love:'💌 Conflict',none:'🌈 None'};
+const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+
+/* session storage (voice only) in IndexedDB */
+const dbp=new Promise(r=>{try{const q=indexedDB.open('dl',1);q.onupgradeneeded=()=>q.result.createObjectStore('s',{keyPath:'id'});q.onsuccess=()=>r(q.result);q.onerror=()=>r(null)}catch(e){r(null)}});
+async function tx(m,f){const d=await dbp;if(!d)return null;return new Promise(r=>{const t=d.transaction('s',m),q=f(t.objectStore('s'));t.oncomplete=()=>r(q&&q.result);t.onerror=()=>r(null)})}
+
+/* tabs and chips */
+function go(v){document.querySelectorAll('nav button').forEach(x=>x.setAttribute('aria-selected',x.dataset.v===v));
+ document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));
+ if(v==='sess')renderSess();if(v==='grow')renderIns();}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
+function chips(id,cb){document.querySelectorAll('#'+id+' .chip').forEach(c=>c.onclick=()=>{
+ document.querySelectorAll('#'+id+' .chip').forEach(x=>x.setAttribute('aria-pressed',x===c));cb(c.dataset.c)})}
+function pick(id,v){document.querySelectorAll('#'+id+' .chip').forEach(x=>x.setAttribute('aria-pressed',x.dataset.c===v))}
+chips('cats',c=>S.cat=c);
+chips('nar',c=>{S.nar=c;save();setRec();if(c==='m')askOnce()});pick('nar',S.nar);
+let cw=null,cs=null;chips('cw',c=>cw=c);chips('cs',c=>cs=c);
+$('before').oninput=()=>$('bv').textContent=$('before').value;
+$('aft').oninput=()=>$('av').textContent=$('aft').value;
+$('anx').oninput=()=>$('xv').textContent=$('anx').value;
+
+/* script writer */
+function tmpl(cat,d,f){
+ const dream=d||'the life I love',fear=f?`"${f}"`:'this worry';
+ const o='Close your eyes. Breathe in slowly for four counts, and out for six. ';
+ return {money:o+`I notice ${fear} and I thank it for trying to protect me. I am safe right now. I take one small, steady step today, and then another. Money flows to me through work I enjoy and choices I trust. I see ${dream}. My accounts feel calm, my home feels warm, and I breathe easy. I am becoming secure, and it is already underway.`,
+ bugs:o+`I notice ${fear}. Fear is a wave, and I let it rise and pass. Right now I am safe, my feet are on the ground, and my shoulders are soft. The small creature has its own quiet path and is not here for me. I watch from a distance, curious and steady. Each time, my body learns it can stay calm. I see ${dream}, and I walk through it unafraid.`,
+ love:o+`I notice the tension around ${fear}. I release it with my breath. I choose to speak kindly and to listen fully. We both want to feel understood. I say what I need with a soft voice, and I hear what they need. Conflict becomes a bridge between us. I see ${dream}, filled with trust and warmth. I am ready to love with an open heart.`}[cat];}
+$('gen').onclick=()=>{$('script').value=tmpl(S.cat,$('dream').value.trim(),$('fear').value.trim());S.script=$('script').value;save();go('listen')};
+$('script').value=S.script||'';$('script').oninput=()=>{S.script=$('script').value;save()};
+
+/* soothing generated music */
+let ac,master,timer;
+const CH=[[220,277.2,329.6,415.3],[196,246.9,293.7,370],[174.6,220,261.6,329.6],[196,246.9,293.7,392]];
+function wake(){ac=ac||new(window.AudioContext||window.webkitAudioContext)();ac.resume()}
+function startMusic(){wake();
+ master=ac.createGain();master.gain.setValueAtTime(0,ac.currentTime);master.gain.linearRampToValueAtTime(.2,ac.currentTime+3);master.connect(ac.destination);
+ const lp=ac.createBiquadFilter();lp.type='lowpass';lp.frequency.value=900;lp.connect(master);
+ const d=ac.createDelay();d.delayTime.value=.45;const fb=ac.createGain();fb.gain.value=.45;lp.connect(d);d.connect(fb);fb.connect(d);d.connect(master);
+ let i=0;const step=()=>{CH[i++%4].forEach(f=>{const o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;
+  o.type='sine';o.frequency.value=f;o.detune.value=(Math.random()-.5)*8;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.25,t+3);g.gain.linearRampToValueAtTime(0,t+8);
+  o.connect(g);g.connect(lp);o.start(t);o.stop(t+8.2)})};
+ step();timer=setInterval(step,6000);}
+function stopMusic(){clearInterval(timer);if(!master)return;const m=master,t=ac.currentTime;
+ m.gain.cancelScheduledValues(t);m.gain.setValueAtTime(m.gain.value,t);m.gain.linearRampToValueAtTime(0,t+3);setTimeout(()=>m.disconnect(),3200);master=null}
+
+/* record: starts the moment you tap */
+let tts=false,ttsDone=false;
+function setRec(){$('perm').style.display=S.nar==='m'?'':'none';permUI();$('imb').style.display=S.nar==='m'?'':'none';$('phone').style.display=S.nar==='m'?'':'none';$('rec').classList.remove('on');$('rec').innerHTML=S.nar==='f'?'▶<br>Play with female voice':'🎙<br>Tap to record'}
+function pickVoice(){const v=speechSynthesis.getVoices().filter(x=>/^en/i.test(x.lang));
+ return v.find(x=>/female|samantha|zira|aria|jenny|susan|karen|moira|tessa|fiona|victoria|serena|hazel|sara|ava|allison|joanna|emma/i.test(x.name))||v.find(x=>/google us english/i.test(x.name))||v[0]||null}
+function speakF(text,end){const u=new SpeechSynthesisUtterance(text),v=pickVoice();if(v){u.voice=v;u.lang=v.lang}u.rate=.8;u.pitch=1.15;u.onend=end;u.onerror=end;speechSynthesis.cancel();speechSynthesis.speak(u)}
+function femaleRun(){
+ if(!('speechSynthesis' in window)){$('vstat').textContent='This browser has no voice reader. Switch to My voice.';return}
+ if(tts){tts=false;speechSynthesis.cancel();stopMusic();clearInterval(tI);setRec();return}
+ const txt=$('script').value.trim();if(!txt){$('script').focus();return}
+ wake();tts=true;ttsDone=false;startMusic();t0=Date.now();$('after').style.display='none';
+ $('rec').classList.add('on');$('rec').innerHTML='⏹<br>Tap to stop';$('vstat').textContent='A female voice is reading your script over the music.';
+ tI=setInterval(()=>$('tm').textContent=fmt((Date.now()-t0)/1000),250);
+ setTimeout(()=>{if(tts)speakF(txt,()=>{if(!tts)return;tts=false;clearInterval(tI);setTimeout(stopMusic,5000);setRec();
+  ttsDone=true;$('prev').style.display='none';$('sname').value='Session '+new Date().toLocaleDateString();$('after').style.display='block';$('vstat').textContent='Finished. Save it below.'})},2500)}
+$('rec').onclick=async()=>{
+ if(S.nar==='f')return femaleRun();
+ if(mr&&mr.state==='recording'){mr.stop();return}
+ wake();
+ let st;try{if(!navigator.mediaDevices||!window.MediaRecorder)throw{name:'Unsupported'};st=await navigator.mediaDevices.getUserMedia({audio:true});mr=new MediaRecorder(st)}catch(e){if(st)st.getTracks().forEach(t=>t.stop());return micFail(e)}
+ch=[];mr.ondataavailable=e=>ch.push(e.data);
+ mr.onstop=()=>{blob=new Blob(ch,{type:mr.mimeType||'audio/webm'});st.getTracks().forEach(t=>t.stop());
+  stopMusic();clearInterval(tI);$('rec').classList.remove('on');$('rec').innerHTML='🎙<br>Record again';
+  $('prev').style.display='';ttsDone=false;$('prev').src=URL.createObjectURL(blob);$('sname').value='Session '+new Date().toLocaleDateString();
+  $('after').style.display='block';$('vstat').textContent='Recording finished. Save it below.';$('after').scrollIntoView({behavior:'smooth'})};
+ mr.start();startMusic();t0=Date.now();$('after').style.display='none';
+ $('rec').classList.add('on');$('rec').innerHTML='⏹<br>Tap to stop';$('vstat').textContent='Recording now. Read your script slowly.';
+ tI=setInterval(()=>$('tm').textContent=fmt((Date.now()-t0)/1000),250);};
+$('disc').onclick=()=>{blob=null;ttsDone=false;$('after').style.display='none';$('tm').textContent='0:00'};
+$('save').onclick=async()=>{if(!blob&&!ttsDone)return;
+ const c=S.cat,b=+$('before').value,a=+$('aft').value;
+ await tx('readwrite',s=>s.put({id:Date.now(),name:$('sname').value||'Session',c,script:$('script').value,b,a,dur:$('tm').textContent,tts:!blob,blob}));
+ S.log.push({c,b,a,t:Date.now()});save();blob=null;ttsDone=false;$('after').style.display='none';$('tm').textContent='0:00';go('sess')};
+
+/* saved sessions: voice + live music */
+async function renderSess(){
+ const L=(await tx('readonly',s=>s.getAll()))||[];
+ if(!L.length){$('sl').textContent='Nothing saved yet. Record your first narration.';return}
+ L.sort((a,b)=>b.id-a.id);
+ $('sl').innerHTML=L.map(x=>`<div class="stat"><span><b>${x.name}</b><br>${NAMES[x.c]} · ${x.tts?'👩 female voice':x.dur} · calm ${x.b}→${x.a}</span><span><button data-p="${x.id}" aria-label="Play">▶</button> <button data-d="${x.id}" aria-label="Delete">🗑</button></span></div>`).join('');
+ $('sl').querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>playSess(+b.dataset.p,b));
+ $('sl').querySelectorAll('[data-d]').forEach(b=>b.onclick=async()=>{await tx('readwrite',s=>s.delete(+b.dataset.d));renderSess()});}
+async function playSess(id,btn){
+ if(pl){pl.pause();pl=null;stopMusic();renderSess();return}
+ const x=await tx('readonly',s=>s.get(id));if(!x)return;
+ wake();startMusic();btn.textContent='⏸';
+ const end=()=>{if(!pl)return;pl=null;setTimeout(stopMusic,x.tts?5000:0);renderSess()};
+ if(x.tts){pl={pause(){speechSynthesis.cancel()}};setTimeout(()=>{if(pl)speakF(x.script,end)},2500)}
+ else{pl=new Audio(URL.createObjectURL(x.blob));pl.onended=end;pl.play().catch(end)}}
+
+/* daily check-in and learning */
+$('chk').onclick=()=>{if(!cw)return $('chk').textContent='Pick today\'s loudest worry first';
+ S.checks.push({w:cw,x:+$('anx').value,s:cs==='1',t:Date.now()});save();$('chk').textContent='Saved ✓';setTimeout(()=>$('chk').textContent='Save check-in',1500);
+ if(cw!=='none'){S.cat=cw;pick('cats',cw)}renderIns()};
+function renderIns(){
+ const avg=a=>a.reduce((s,v)=>s+v,0)/a.length;let h='';
+ const by={};S.log.forEach(x=>(by[x.c]=by[x.c]||[]).push(x.a-x.b));
+ const rows=Object.keys(by).map(k=>[k,avg(by[k]),by[k].length]).sort((a,b)=>b[1]-a[1]);
+ h+=rows.map(r=>`<div class="stat"><span>${NAMES[r[0]]} · ${r[2]} sessions</span><b>${r[1]>=0?'+':''}${r[1].toFixed(1)} calm</b></div>`).join('');
+ const last=S.checks[S.checks.length-1];
+ if(S.checks.length){const w=S.checks.filter(c=>c.w!=='none'),cnt={};w.forEach(c=>cnt[c.w]=(cnt[c.w]||0)+1);
+  const top=Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0];
+  const stepDays=S.checks.filter(c=>c.s).length;
+  h+=`<p>🌤 ${S.checks.length} check-ins, ${stepDays} with a small step. ${top?'Your most frequent worry: '+NAMES[top]+'.':''}</p>`}
+ if(last&&last.w!=='none'){const best=rows.find(r=>r[0]===last.w);
+  h+=`<p>🌸 Today's suggestion: a ${NAMES[last.w]} session`+(best&&best[1]>0?`. These have raised your calm by ${best[1].toFixed(1)} on average.`:'. Try a short one and rate your calm after.')+(last.x>=7?' Your anxiety is high today, so keep it gentle and breathe slowly.':'')+'</p>'}
+ else if(rows.length)h+=`<p>🌸 ${NAMES[rows[0][0]]} sessions calm you most so far.</p>`;
+ $('ins').innerHTML=h||'Check in daily and finish sessions to start learning what calms you.'}
+$('reset').onclick=()=>{S.log=[];S.checks=[];save();renderIns()};
+
+/* microphone permission pop-ups */
+const inFrame=()=>{try{return window.top!==window}catch(e){return true}};
+function micFail(e){const n=e&&e.name,fp=document.featurePolicy;
+ if(fp&&fp.allowsFeature&&!fp.allowsFeature('microphone'))return modal('policy');
+ if(n==='NotAllowedError'||n==='Unsupported'||n==='SecurityError')return modal(inFrame()?'policy':'denied');
+ if(n==='NotFoundError')return modal('err','No microphone was found on this device.');
+ if(n==='NotReadableError')return modal('err','Another app is using the microphone. Close it or end any call, then try again.');
+ modal('err','Error: '+(n||e)+'. Try again or use your phone\'s recorder.')}
+async function permUI(){let p='prompt';try{p=(await navigator.permissions.query({name:'microphone'})).state}catch(e){}
+ $('perm').textContent=p==='granted'?'✅ Microphone allowed':p==='denied'?'🔒 Microphone blocked, tap for help':'🔓 Allow microphone';}
+async function askMic(){try{if(!navigator.mediaDevices)throw{name:'Unsupported'};const s=await navigator.mediaDevices.getUserMedia({audio:true});s.getTracks().forEach(t=>t.stop());
+ $('vstat').textContent='Microphone is on ✓ Now tap the record button.'}catch(e){micFail(e)}permUI()}
+$('perm').onclick=askMic;
+function modal(t,msg){const ask=t==='ask',pol=t==='policy',er=t==='err';
+ $('mt').textContent=ask?'🎙 Allow your microphone?':pol?'🔒 This view blocks the microphone':er?'⚠️ Recording could not start':'🔒 Microphone is turned off';
+ $('mb').innerHTML=ask?'Dreamlife uses the mic only to record your voice. Recordings stay on your phone. Tap <b>Allow microphone</b>, then choose <b>Allow</b> in your phone pop-up.'
+ :pol?'Chrome\'s site setting can be on, but this page is shown inside Claude, which does not pass the microphone through. Open the page on its own to record here, or record with your phone\'s recorder.'
+ :er?msg
+ :'Turn the microphone on for this site:<ol><li>Tap ⋮ in Chrome, then <b>Settings</b></li><li><b>Site settings</b> → <b>Microphone</b></li><li>Set this site to <b>Allow</b></li></ol><span class="note">Still blocked? Open Android <b>Settings → Apps → Chrome → Permissions → Microphone</b>.</span>';
+ $('m1').textContent=ask?'Allow microphone':pol?'Open full-screen page':er?'Try again':'I turned it on';
+ $('m1').onclick=async()=>{$('modal').hidden=true;
+  if(pol){window.open(location.href.split('#')[0]+'#mic','_blank');return}
+  if(er){$('rec').click();return}
+  await askMic()};
+ $('m3').hidden=ask;
+ $('m3').textContent=(pol||er)?'Use my phone\'s recorder':'Copy the Chrome settings link';
+ $('m3').onclick=()=>{if(pol||er){$('modal').hidden=true;$('cap').click();return}
+  try{navigator.clipboard.writeText('chrome://settings/content/microphone');$('m3').textContent='Copied ✓ paste in Chrome address bar'}catch(e){}};
+ $('m2').onclick=()=>{$('modal').hidden=true};$('modal').hidden=false;$('m1').focus()}
+/* script reader: big auto-scrolling text */
+let rI=null,wl=null;
+function openReader(){const t=$('script').value.trim();if(!t){$('script').focus();return}
+ $('rt').textContent=t;$('rt').scrollTop=0;$('reader').hidden=false;
+ try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(l=>wl=l).catch(()=>{})}catch(e){}
+ scroll()}
+function scroll(){clearInterval(rI);rI=setInterval(()=>{$('rt').scrollTop+=+$('rs').value*.35},50)}
+$('rs').oninput=scroll;
+function closeReader(){$('reader').hidden=true;clearInterval(rI);try{wl&&wl.release()}catch(e){}wl=null}
+$('rd').onclick=openReader;$('rx').onclick=closeReader;$('rrec').onclick=()=>$('rec').click();
+$('rt').addEventListener('touchstart',()=>clearInterval(rI),{passive:true});
+let wasOn=false;new MutationObserver(()=>{const on=$('rec').classList.contains('on');
+ $('rrec').textContent=on?'⏹ Stop':(S.nar==='f'?'▶ Play with female voice':'🎙 Record');
+ if(wasOn&&!on&&!$('reader').hidden)setTimeout(closeReader,400);wasOn=on}).observe($('rec'),{attributes:true,attributeFilter:['class']});
+$('phone').onclick=()=>$('cap').click();
+const addRec=e=>{const f=e.target.files[0];if(!f)return;blob=f;ttsDone=false;
+ const u=URL.createObjectURL(f);$('prev').style.display='';$('prev').src=u;$('sname').value='Session '+new Date().toLocaleDateString();
+ const a=new Audio(u);a.onloadedmetadata=()=>{$('tm').textContent=isFinite(a.duration)?fmt(a.duration):'0:00'};
+ $('after').style.display='block';$('vstat').textContent='Recording added. Save it below.';$('after').scrollIntoView({behavior:'smooth'});e.target.value=''};
+$('cap').onchange=addRec;$('imp').onchange=addRec;
+$('imb').onclick=()=>$('imp').click();
+async function askOnce(){if(S.asked)return;let p='prompt';try{p=(await navigator.permissions.query({name:'microphone'})).state}catch(e){}
+ if(p==='prompt'){S.asked=1;save();modal('ask')}}
+if(S.nar==='m')askOnce();setRec();
+if(location.hash==='#mic'&&!inFrame()){S.nar='m';pick('nar','m');setRec();go('listen');modal('ask')}try{speechSynthesis.getVoices()}catch(e){}
+const lc=S.checks[S.checks.length-1];if(lc&&lc.w!=='none'&&Date.now()-lc.t<864e5){S.cat=lc.w;pick('cats',lc.w)}
+</script></body></html>
